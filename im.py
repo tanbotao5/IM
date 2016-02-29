@@ -99,7 +99,7 @@ class huanXingController:
       def del_AppKey_User (self, user=''):  # name
             try:
                   if user:
-                        JSON_HEADER['Authorization'] = 'Bearer ' + self
+                        JSON_HEADER['Authorization'] = 'Bearer ' + self.token
                         payload = user
                         url = URL % ( APPKEY, APPKEY_NAME, 'users')
                         reponse = requests.delete(url, data = json.dumps(payload), headers = JSON_HEADER, auth = '')
@@ -151,7 +151,7 @@ class huanXingController:
       @getToken('token')
       def createGroupChat(self, message={}):
             try:
-                  JSON_HEADER['Authorization'] = 'Bearer ' + self
+                  JSON_HEADER['Authorization'] = 'Bearer ' + self.token
                   url = URL % ( APPKEY, APPKEY_NAME, 'chatgroups')
                   try:
                         if not message["maxusers"]:
@@ -174,7 +174,7 @@ class huanXingController:
       @getToken('token')
       def updateGroupChat(self,groupId, message={}):
             try:
-                  JSON_HEADER['Authorization'] = 'Bearer ' + self
+                  JSON_HEADER['Authorization'] = 'Bearer ' + self.token
                   url = URL % ( APPKEY, APPKEY_NAME, 'chatgroups/'+groupId)
                   reponse = requests.put(url, data = json.dumps(message), headers = JSON_HEADER, auth = '')
                   if reponse.status_code == requests.codes.ok:
@@ -193,7 +193,7 @@ class huanXingController:
       def getGroupChatInfo(self,groupId):
             try:
                   groupinfo = {"groupname":"","description":"","maxusers":0,}
-                  JSON_HEADER['Authorization'] = 'Bearer ' + self
+                  JSON_HEADER['Authorization'] = 'Bearer ' + self.token
                   url = URL % ( APPKEY, APPKEY_NAME, 'chatgroups/'+groupId)
                   reponse = requests.get(url, headers = JSON_HEADER, auth = '')
                   if reponse.status_code == requests.codes.ok:
@@ -263,7 +263,7 @@ class huanXingController:
                   namekeys = {"owner":'',"members":[]}
                   userList = []
 
-                  JSON_HEADER['Authorization'] = 'Bearer ' + self
+                  JSON_HEADER['Authorization'] = 'Bearer ' + self.token
                   url = URL % ( APPKEY, APPKEY_NAME, 'chatgroups/'+groupId +'/users')
                   reponse = requests.get(url, headers = JSON_HEADER, auth = '')
                   if reponse.status_code == requests.codes.ok:
@@ -313,7 +313,7 @@ class huanXingController:
       @getToken('token')
       def addGroupChatUsers(self,groupId ,person ):
             try:
-                  JSON_HEADER['Authorization'] = 'Bearer ' + self
+                  JSON_HEADER['Authorization'] = 'Bearer ' + self.token
                   url = URL % ( APPKEY, APPKEY_NAME, 'chatgroups/'+groupId +'/users')
                   reponse = requests.post(url,data = json.dumps( {"usernames":person} ), headers = JSON_HEADER, auth = '')
                   if reponse.status_code == requests.codes.ok:
