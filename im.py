@@ -22,7 +22,7 @@ def getToken( args ):
       try:
             def wrop(func):
                   def pp( self, *args):
-                        info = db.SixduAdmin.objects.get(id = 1)
+                        info = db.Name.objects.get(id = 1)
                         lastTime = info.lastActTime
                         self.token = info.token  # 获取token，赋值给一个类变量
                         if (datetime.datetime.now() - lastTime) > WEEK_DAY:       #7天有效期是否失效
