@@ -16,26 +16,28 @@ URL = 'https://a1.easemob.com/%s/%s/%s'
 APPKEY = "your ID"            #环信ID
 APPKEY_NAME = "your appname"            #环信app应用名
 
+
+#获取用户token,修饰huanXingController类方法，
+def getToken( args ):
+      try:
+            def wrop(func):
+                  def pp( self, *args):
+                        info = db.SixduAdmin.objects.get(id = 1)
+                        lastTime = info.lastActTime
+                        self.token = info.token  # 获取token，赋值给一个类变量
+                        if (datetime.datetime.now() - lastTime) > WEEK_DAY:       #7天有效期是否失效
+                              if self.get_AppKey_Token():
+                                    self.token = db.Name.objects.get(id = 1).token
+                        ret = func( self, *args)
+                        return ret
+                  return pp
+            return wrop
+      except:
+            pass
+
 class huanXingController:
       def __init__ (self):
             pass
-      #获取企业token,修饰器其它的获取token操作,  可以用修饰器修饰其它需要token的方法，和环信服务器交互
-      def getToken(self):
-            try:
-                  def wrop(func):
-                        def pp(token,this, *args):
-                              info = db.Name.objects.get(id = 1)
-                              lastTime = info.lastActTime
-                              Authorization = info.token                               #获取token
-                              if (datetime.datetime.now() - lastTime) > WEEK_DAY:      #判断是否7天有效期
-                                    if self.get_AppKey_Token():
-                                          Authorization = db.Name.objects.get(id = 1).token   #存储token的地方，获取
-                              ret = func(Authorization,this, *args)
-                              return ret
-                        return pp
-                  return wrop
-            except:
-                  pass
       #获取企业token,和环信服务器交互
       def getUserToken(self):
             try:
